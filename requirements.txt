@@ -1,0 +1,4 @@
+Django==1.5.4
+pytest
+pytest-cov
+coverage

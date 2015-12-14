@@ -7,8 +7,8 @@ Tasks file for pyinvoke.
 
 """
 
-from invoke import ctask as task, collection
-from dktasklib import Package, collectstatic
+from invoke import collection  # , ctask as task
+from dktasklib import Package
 from dktasklib.version import version, upversion
 
 

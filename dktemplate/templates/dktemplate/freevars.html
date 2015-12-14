@@ -1,0 +1,11 @@
+
+{# dk-template: noparse #}
+<table>
+{% for fv in fvars %}
+    <tr>
+        <th>{{ fv.name }}</th>
+        <td>{{ fv.value }}</td>
+    </tr>
+{% endfor %}
+</table>
+{# dk-template: end-noparse #}
