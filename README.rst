@@ -1,6 +1,6 @@
 
-.. image:: https://travis-ci.org/thebjorn/dk-template.svg?branch=master
-    :target: https://travis-ci.org/thebjorn/dk-template
+.. image:: https://travis-ci.org/datakortet/dk-template.svg?branch=master
+    :target: https://travis-ci.org/datakortet/dk-template
 
 
 dk-template -- short description
