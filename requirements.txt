@@ -1,0 +1,5 @@
+dkfileutils==1.0.1
+invoke
+dk-tasklib
+pytest
+pytest-cov
