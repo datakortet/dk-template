@@ -89,15 +89,15 @@ class IncludeTag(Tag):
     def fvars(self):
         from .parse import parse_file
         path = eval(self.content)
-        if path.startswith('.'):
-            # this is so the tests can find included files
-            parentpath = os.path.dirname(self.fname)
-            childpath = os.path.join(parentpath, path)
-            path = os.path.abspath(os.path.normpath(childpath))
-            return parse_file(path).fvars()
-        else:
-            path = find_template(path)
-            return parse_file(path).fvars()
+        # if path.startswith('.'):
+        #     # this is so the tests can find included files
+        #     parentpath = os.path.dirname(self.fname)
+        #     childpath = os.path.join(parentpath, path)
+        #     path = os.path.abspath(os.path.normpath(childpath))
+        #     return parse_file(path).fvars()
+
+        path = find_template(path)
+        return parse_file(path).fvars()
 
 
 class Block(Node):

@@ -59,6 +59,24 @@ def test_include():
 def test_include2():
     assert parse("""
     {% for a in alist %}
-        {% include "./testdata/a-template.html" %}
+        {% include "testdata/a-template.html" %}
     {% endfor %}
     """, os.path.join(BASEDIR, 'curdir')).fvars() == {'alist'}
+
+
+def test_include3():
+    assert parse("""
+    {% include "testdata/for-template.html" %}
+    """, os.path.join(BASEDIR, 'curdir')).fvars() == {'alist', 'b', 'c', 'd', 'e', 'f'}
+
+
+def test_include4():
+    assert parse("""
+    {% include "testdata/include2.html" %}
+    """, os.path.join(BASEDIR, 'curdir')).fvars() == {'include2'}
+
+
+def test_include5():
+    assert parse("""
+    {% include "testdata/include1.html" %}
+    """, os.path.join(BASEDIR, 'curdir')).fvars() == {'include1', 'include2'}
