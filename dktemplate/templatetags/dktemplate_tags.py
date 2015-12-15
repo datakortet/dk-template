@@ -1,20 +1,23 @@
 # -*- coding: utf-8 -*-
 
-
 from django import template
-from django.template import loader
 
+from dktemplate.find_template import find_template
 from dktemplate.parse import parse_file
 
 register = template.Library()
 
 
 @register.inclusion_tag('dktemplate/freevars.html', takes_context=True)
-def freevars(ctx):
-    template_fname = ctx['dbg_template_name']
-    src, origin = template.loader.find_template(template_fname)
-    ast = parse_file(src)
-
-    return {
-        'fvars': [dict(name=fv, value=ctx[fv]) for fv in ast.fvars()]
-    }
+def freevars(context):
+    template_fname = context['dbg_template_name']
+    try:
+        tmpl_path = find_template(template_fname)
+        ast = parse_file(tmpl_path)
+        return {
+            'fvars': [dict(name=fv, value=context.get(fv, "[MISSING]")) for fv in ast.fvars()]
+        }
+    except IOError:
+        return {
+            'fvars': [{'name': 'NOTHING', 'value': 'FOUND'}]
+        }

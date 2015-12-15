@@ -2,6 +2,7 @@
 import os
 import re
 
+from dktemplate.find_template import find_template
 from dktemplate.tokenize import name
 
 
@@ -63,7 +64,8 @@ class ForTag(Tag):
         return self.find_identifiers(self.content.split(' in ', 1)[1])
 
     def dvars(self):
-        return self.find_identifiers(self.content.split(' in ', 1)[0])
+        implicit = {'forloop', 'forloop0', 'in', 'for'}
+        return implicit | self.find_identifiers(self.content.split(' in ', 1)[0])
 
 
 class WithTag(Tag):
@@ -75,7 +77,7 @@ class WithTag(Tag):
 
     def dvars(self):
         if ' as ' in self.content:
-            return self.find_identifiers(self.content.rsplit(' as ', 1)[1])
+            return {'as'} | self.find_identifiers(self.content.rsplit(' as ', 1)[1])
         else:
             return self.find_identifiers(self.content.split('=', 1)[0])
 
@@ -85,14 +87,17 @@ class IncludeTag(Tag):
         return ""
 
     def fvars(self):
+        from .parse import parse_file
         path = eval(self.content)
         if path.startswith('.'):
+            # this is so the tests can find included files
             parentpath = os.path.dirname(self.fname)
             childpath = os.path.join(parentpath, path)
             path = os.path.abspath(os.path.normpath(childpath))
-            from .parse import parse_file
             return parse_file(path).fvars()
-        return set()
+        else:
+            path = find_template(path)
+            return parse_file(path).fvars()
 
 
 class Block(Node):
@@ -109,7 +114,7 @@ class Block(Node):
         res = self.tag.fvars()
         for item in self.block:
             res |= {fv.split('.', 1)[0] for fv in item.fvars()}
-        return res - self.dvars() - {'request'}
+        return res - self.dvars() - {'request', 'for', 'as', 'in'}
 
     def dvars(self):
         return self.tag.dvars()

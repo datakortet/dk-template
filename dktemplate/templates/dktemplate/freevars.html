@@ -1,11 +1,26 @@
 
 {# dk-template: noparse #}
-<table>
-{% for fv in fvars %}
-    <tr>
-        <th>{{ fv.name }}</th>
-        <td>{{ fv.value }}</td>
+<table border="0" style="margin: 25px; max-width: 600px !important; border: 2px solid lightblue;">
+    <caption style="caption-side: bottom;text-align: right;font-size:11px;font-family: Verdana,sans-serif;line-height: 100%;">
+        All template variables used by this template (any <strong>MISSING</strong> should be added to the context)<br><em>&mdash; from dktemplate_tag</em>
+    </caption>
+    <thead>
+    <tr style="background-color: lightblue;">
+        <th align="right">template variable name</th>
+        <th align="left">value</th>
     </tr>
-{% endfor %}
+    </thead>
+    <tbody>
+    {% for fv in fvars %}
+    <tr>
+        <th style="text-align: right;padding:0 4px;vertical-align: top;"><code>{{ fv.name }}</code></th>
+        {% if fv.value == "[MISSING]" %}
+            <td style="color:white; background-color: red;text-align: left;vertical-align: top;"><code>{{ fv.value }}</code></td>
+        {% else %}
+            <td style="text-align: left;vertical-align: top;"><code>{{ fv.value }}</code></td>
+        {% endif %}
+    </tr>
+    {% endfor %}
+    </tbody>
 </table>
 {# dk-template: end-noparse #}
