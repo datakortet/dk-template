@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import re
 
-from dktemplate.ast import IfTag, ForTag, WithTag, NoOpTag, Tag, Block, Value, IncludeTag
+from dktemplate.ast import IfTag, ForTag, WithTag, NoOpTag, Tag, Block, Value, IncludeTag, RegroupTag, GetCommentForm
 from dktemplate.tokenize import name, content, tokenize, is_tag, is_endtag
 
 
@@ -16,30 +16,46 @@ def parse(txt, fname=None):
     return nest(tokenize(txt), fname)
 
 
-def make_tag(name, content=None, fname=None):
-    return {
+def make_tag(input_queue, name, content=None, fname=None):
+    tag = {
         'if': IfTag,
         'elif': IfTag,
         'for': ForTag,
         'with': WithTag,
         'load': NoOpTag,
+        'block': NoOpTag,
         'include': IncludeTag,
+        'regroup': RegroupTag,
+        'get_comment_form': GetCommentForm,
+        'get_comment_list': GetCommentForm,
     }.get(name, Tag)(name, content, fname)
+
+    # tags that modify the context from their location to the end of
+    # the document.
+    rest_of_doc_tags = ['regroup']  # , 'get_comment_form', 'get_comment_list']
+    if name in rest_of_doc_tags:
+        # add in dummy end tags (so the shift/reduce algorithm knows when
+        # to create blocks.
+        input_queue.append("{%% end%s %%}" % name)
+
+    return tag
 
 
 def nest(words, fname):
     """Nest start/end tags into blocks recursively.
     """
-    stack = [Tag('-program')]
+    # stack = [Tag('-program')]
+    stack = []
 
     def prstack():  # pragma:nocover
         """Print stack contents.
         """
         print "STACK:...."
-        for item in stack:
-            print item
+        for _item in stack:
+            print _item
 
-    for word in words + ['{% end-program %}']:
+    while words:
+        word = words.pop(0)
         # print "\WORD:", word
         # prstack()
 
@@ -58,9 +74,10 @@ def nest(words, fname):
                     block.append(item)
         elif is_tag(word):
             # print "SHIFT TAG", name(word)
-            stack.append(make_tag(name(word), content(word), fname))
+            tag = make_tag(words, name(word), content(word), fname)
+            stack.append(tag)
         else:
             # print "SHIFT VAL", word
             stack.append(Value(content(word)))
 
-    return stack[0]
+    return Block('program', Tag('program'), stack)

@@ -6,6 +6,7 @@
     </caption>
     <thead>
     <tr style="background-color: lightblue;">
+        <th>#</th>
         <th align="right">template variable name</th>
         <th align="left">value</th>
     </tr>
@@ -13,6 +14,7 @@
     <tbody>
     {% for fv in fvars %}
     <tr>
+        <td align="right">{{ forloop.counter }}</td>
         <th style="text-align: right;padding:0 4px;vertical-align: top;"><code>{{ fv.name }}</code></th>
         {% if fv.value == "[MISSING]" %}
             <td style="color:white; background-color: red;text-align: left;vertical-align: top;"><code>{{ fv.value }}</code></td>
@@ -21,6 +23,10 @@
         {% endif %}
     </tr>
     {% endfor %}
+    <tr>
+        <th style="vertical-align: top;">unused</th>
+        <td colspan="2">{% for ovar in overflow %}{{ ovar }} {% endfor %}</td>
+    </tr>
     </tbody>
 </table>
 {# dk-template: end-noparse #}

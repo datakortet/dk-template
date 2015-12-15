@@ -7,7 +7,8 @@ from dktemplate.tokenize import name
 
 
 class Node(object):
-    pass
+    def global_defines(self):
+        return set()
 
 
 class Value(Node):
@@ -64,8 +65,25 @@ class ForTag(Tag):
         return self.find_identifiers(self.content.split(' in ', 1)[1])
 
     def dvars(self):
-        implicit = {'forloop', 'forloop0', 'in', 'for'}
+        implicit = {'forloop', 'forloop0', 'in', 'for', 'reversed'}
         return implicit | self.find_identifiers(self.content.split(' in ', 1)[0])
+
+
+class RegroupTag(Tag):
+    def fvars(self):
+        return {self.content.split()[0]}
+
+    def dvars(self):
+        return {self.content.split()[-1]}
+
+
+class GetCommentForm(Tag):
+    def fvars(self):
+        print "COMMENT:", self.content.split()
+        return {self.content.split()[1]}
+
+    def global_defines(self):
+        return {self.content.split()[3]}
 
 
 class WithTag(Tag):
@@ -88,15 +106,8 @@ class IncludeTag(Tag):
 
     def fvars(self):
         from .parse import parse_file
-        path = eval(self.content)
-        # if path.startswith('.'):
-        #     # this is so the tests can find included files
-        #     parentpath = os.path.dirname(self.fname)
-        #     childpath = os.path.join(parentpath, path)
-        #     path = os.path.abspath(os.path.normpath(childpath))
-        #     return parse_file(path).fvars()
-
-        path = find_template(path)
+        # path = eval(self.content)
+        path = find_template(self.content[1:-1])
         return parse_file(path).fvars()
 
 
@@ -117,7 +128,10 @@ class Block(Node):
         return res - self.dvars() - {'request', 'for', 'as', 'in'}
 
     def dvars(self):
-        return self.tag.dvars()
+        dvars = self.tag.dvars()
+        for item in self.block:
+            dvars |= item.global_defines()
+        return dvars
 
     def display_fvars(self):
         return "{\n    " + ',\n    '.join(["%s: {{%s}}" % (fv, fv) for fv in self.fvars()]) + '\n}'
