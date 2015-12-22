@@ -89,7 +89,8 @@ class GetCommentForm(Tag):
 class AsTag(Tag):
     @classmethod
     def is_as_tag(cls, content):
-        return content.split()[-2] == 'as'
+        # print "CONTENT:", content, content.split()[-2:-1]
+        return content.split()[-2:-1] == ['as']
 
     def fvars(self):
         split = self.content.split()

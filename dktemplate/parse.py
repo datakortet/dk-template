@@ -33,15 +33,15 @@ def make_tag(input_queue, name, content=None, fname=None):
         'get_comment_list': GetCommentForm,
     }.get(name)
 
-    print >>sys.stderr,'\n'* 15
-    if not tag_cls and AsTag.is_as_tag(content):
-        tag_cls = AsTag
-        print "ASTAG"
-    else:
-        tag_cls = Tag
-        print "NOT ASTAG"
+    if tag_cls is None:
+        if AsTag.is_as_tag(content):
+            tag_cls = AsTag
+        else:
+            tag_cls = Tag
 
     tag = tag_cls(name, content, fname)
+    # if tag_cls in [NoOpTag]:
+    #     print "TAG:SCLS", tag_cls, tag.fvars(), tag.dvars()
 
     # tags that modify the context from their location to the end of
     # the document.
