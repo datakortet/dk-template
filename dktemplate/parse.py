@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 import re
 
-from dktemplate.ast import IfTag, ForTag, WithTag, NoOpTag, Tag, Block, Value, IncludeTag, RegroupTag, GetCommentForm
+import sys
+
+from dktemplate.ast import IfTag, ForTag, WithTag, NoOpTag, Tag, Block, Value, IncludeTag, RegroupTag, GetCommentForm, \
+    AsTag
 from dktemplate.tokenize import name, content, tokenize, is_tag, is_endtag
 
 
@@ -17,7 +20,7 @@ def parse(txt, fname=None):
 
 
 def make_tag(input_queue, name, content=None, fname=None):
-    tag = {
+    tag_cls = {
         'if': IfTag,
         'elif': IfTag,
         'for': ForTag,
@@ -28,7 +31,17 @@ def make_tag(input_queue, name, content=None, fname=None):
         'regroup': RegroupTag,
         'get_comment_form': GetCommentForm,
         'get_comment_list': GetCommentForm,
-    }.get(name, Tag)(name, content, fname)
+    }.get(name)
+
+    print >>sys.stderr,'\n'* 15
+    if not tag_cls and AsTag.is_as_tag(content):
+        tag_cls = AsTag
+        print "ASTAG"
+    else:
+        tag_cls = Tag
+        print "NOT ASTAG"
+
+    tag = tag_cls(name, content, fname)
 
     # tags that modify the context from their location to the end of
     # the document.
