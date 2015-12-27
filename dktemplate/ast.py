@@ -79,11 +79,28 @@ class RegroupTag(Tag):
 
 class GetCommentForm(Tag):
     def fvars(self):
-        print "COMMENT:", self.content.split()
+        # print "COMMENT:", self.content.split()
         return {self.content.split()[1]}
 
     def global_defines(self):
         return {self.content.split()[3]}
+
+
+class AsTag(Tag):
+    @classmethod
+    def is_as_tag(cls, content):
+        # print "CONTENT:", content, content.split()[-2:-1]
+        return content.split()[-2:-1] == ['as']
+
+    def fvars(self):
+        split = self.content.split()
+        if split[-2] == 'as':
+            return self.find_identifiers(' '.join(split[:-2]))
+
+    def dvars(self):
+        split = self.content.split()
+        if split[-2] == 'as':
+            return self.find_identifiers(' '.join(split[-1:]))
 
 
 class WithTag(Tag):
