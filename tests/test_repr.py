@@ -12,9 +12,9 @@ def test_simple_repr():
     {
         x: {{x}}
     }
-    {% -program None %} ==> []
+    {% program None %} ==> []
         {{ x }} ===> ['x']
-    {% end-program %}""")
+    {% endprogram %}""")
 
 
 def test_include5():
@@ -24,6 +24,6 @@ def test_include5():
     {
         include2: {{include2}}
     }
-    {% -program None %} ==> []
+    {% program None %} ==> []
 
-    {% end-program %}""")
+    {% endprogram %}""")
