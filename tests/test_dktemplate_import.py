@@ -3,24 +3,24 @@
 """Test that all modules are importable.
 """
 
-import dk-template.ast
-import dk-template.find_template
-import dk-template.parse
-import dk-template.render
-import dk-template.templatetags
-import dk-template.templatetags.dktemplate_tags
-import dk-template.templatevars
-import dk-template.tokenize
+import dktemplate.ast
+import dktemplate.find_template
+import dktemplate.parse
+import dktemplate.render
+import dktemplate.templatetags
+import dktemplate.templatetags.dktemplate_tags
+import dktemplate.templatevars
+import dktemplate.tokenize
 
 
 def test_import_():
     "Test that all modules are importable."
     
-    assert dk-template.ast
-    assert dk-template.find_template
-    assert dk-template.parse
-    assert dk-template.render
-    assert dk-template.templatetags
-    assert dk-template.templatetags.dktemplate_tags
-    assert dk-template.templatevars
-    assert dk-template.tokenize
+    assert dktemplate.ast
+    assert dktemplate.find_template
+    assert dktemplate.parse
+    assert dktemplate.render
+    assert dktemplate.templatetags
+    assert dktemplate.templatetags.dktemplate_tags
+    assert dktemplate.templatevars
+    assert dktemplate.tokenize
