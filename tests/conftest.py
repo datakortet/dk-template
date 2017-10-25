@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
+import django
 
 
 DIRNAME=os.path.dirname(__file__)
@@ -12,6 +13,7 @@ def pytest_configure():
         TESTING=True,
         STATIC='/static/',
         STATIC_URL='/static/',
+        LOGGING_CONFIG=None,
         DATABASES={
             'default': {
                 'ENGINE': 'django.db.backends.sqlite3',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
@@ -34,3 +36,4 @@ def pytest_configure():
             #'myapp.tests',
         )
     )
+    django.setup()
