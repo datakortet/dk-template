@@ -32,6 +32,7 @@ def pytest_configure():
             'django.contrib.sessions',
             'django.contrib.admin',
             'django.contrib.sites',
+            'dk',
             'dktemplate',
             #'myapp.tests',
         )
