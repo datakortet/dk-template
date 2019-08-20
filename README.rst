@@ -3,8 +3,12 @@
     :target: https://travis-ci.org/datakortet/dk-template
 
 
-dk-template -- short description
+dk-template - debugging django templates.
 ==================================================
+
+Parse a django template and find all template variables that are used.
+Output the template variables in a format that can be included in the
+template to verify the values of all context variables.
 
 
 Installing from PyPI

@@ -1,12 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""
-dk-template - debugging django templates.
-
-Parse a django template and find all template variables that are used.
-Output the template variables in a format that can be included in the
-template to verify the values of all context variables.
+"""dk-template - debugging django templates.
 """
 import sys
 
