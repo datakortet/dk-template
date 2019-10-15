@@ -1,0 +1,11 @@
+_schema: https://static.datakortet.no/schema/dkbuild.schema.yaml
+
+package:
+  package_name: dk-template
+  name: dktemplate
+  description: template - debugging django templates.
+  version: 1.0.1
+  created: 2015
+
+build:
+  venv: dktemplate
