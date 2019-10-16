@@ -11,6 +11,14 @@ Subpackages
 Submodules
 ----------
 
+dktemplate.apps module
+----------------------
+
+.. automodule:: dktemplate.apps
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 dktemplate.ast module
 ---------------------
 
@@ -19,8 +27,8 @@ dktemplate.ast module
     :undoc-members:
     :show-inheritance:
 
-dktemplate.find_template module
--------------------------------
+dktemplate.find\_template module
+--------------------------------
 
 .. automodule:: dktemplate.find_template
     :members:
