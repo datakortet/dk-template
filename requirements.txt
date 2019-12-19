@@ -1,5 +1,6 @@
 django==1.7.11
-pytest==3.9.3
-pytest-cov
-coverage
-dk
+pytest==3.10.1
+pytest-cov==2.6.1
+coverage==4.5.3
+
+-e ../dk
