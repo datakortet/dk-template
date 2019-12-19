@@ -3,4 +3,5 @@ pytest==3.10.1
 pytest-cov==2.6.1
 coverage==4.5.3
 
--e ../dk
+# dk (below) must not be a -e install since we're also running this pipeline on travis
+dk
