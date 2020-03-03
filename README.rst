@@ -1,32 +1,25 @@
 
-.. image:: https://travis-ci.org/datakortet/dk-template.svg?branch=master
-    :target: https://travis-ci.org/datakortet/dk-template
 
-
-dk-template - debugging django templates.
-==================================================
+dk-template - template - debugging django templates.
+====================================================
 
 Parse a django template and find all template variables that are used.
 Output the template variables in a format that can be included in the
 template to verify the values of all context variables.
 
+.. image:: https://travis-ci.org/datakortet/dk-template.svg?branch=master
+    :target: https://travis-ci.org/datakortet/dk-template
 
-Installing from PyPI
---------------------
+.. image:: https://gitlab.com/norsktest/dk-template/badges/master/pipeline.svg
+   :target: https://gitlab.com/norsktest/dk-template/commits/master
+   :alt: pipeline status
 
-This is what you want if you just want to use dk-template:
+.. image:: https://img.shields.io/badge/docs-darkgreen.svg
+   :target: https://norsktest.gitlab.io/dk-template
+   :alt: documentation
 
-   pip install dk-template
+.. image:: https://codecov.io/gl/norsktest/dk-template/branch/master/graph/badge.svg?token=6E4JXSMACJ
+  :target: https://codecov.io/gl/norsktest/dk-template
 
+.. include:: badge-wheel.rst
 
-As a source package
--------------------
-This is what you want if you are developing dk-template or want 
-to make local changes to the source code.
-
-   pip install -e <path>
-
-
-
-
-See docs/ folder for documentation.
