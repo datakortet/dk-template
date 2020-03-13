@@ -23,7 +23,7 @@ setuptools.setup(
     name='dk-template',
     version=version,
     install_requires=[
-        'django==1.7.11',
+        'django==1.8.19',
         'dk'
     ],
     author='Bjorn Pettersen',
