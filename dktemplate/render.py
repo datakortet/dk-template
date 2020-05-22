@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function
+from io import StringIO
 from dktemplate.parse import nest
 from dktemplate.tokenize import tokenize
 
@@ -44,7 +45,8 @@ class Render(object):
         print("{{ %s }}" % item[1], file=self.out)
 
 
-def render(txt):
-    r = Render(nest(tokenize(txt)))
-    r.render()
+def render(txt, fname=None):
+    item = [nest(tokenize(txt), fname)]
+    r = Render("")
+    r.render(item)
     return r.value()

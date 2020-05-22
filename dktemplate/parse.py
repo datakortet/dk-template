@@ -61,7 +61,7 @@ def nest(words, fname):
     # stack = [Tag('-program')]
     stack = []
 
-    def prstack():  # pragma:nocover
+    def prstack():  # pragma: nocover
         """Print stack contents.
         """
         print("STACK:....")

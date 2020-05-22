@@ -21,12 +21,12 @@ def templatevars(t):
     return nest(tag_and_vals)
 
 
-def main():
+def main(fname=None):
     """cli entry point.
     """
-    template = open(sys.argv[1]).read()
+    template = open(fname or sys.argv[1]).read()
     template = re.sub(r'TEMPLATEVARS:.*?:TEMPLATEVARS', "", template)
-    txt = repr(nest(tokenize(template)))
+    txt = repr(nest(tokenize(template), fname))
     txt = txt.replace('{% end-program %}', '</pre>:TEMPLATEVARS' + '<br>' * 5)
     txt = txt.replace('{% -program None %} ==> []', '')
     # txt = re.sub(r'{%\s*load.*?%}', '', txt)
@@ -34,6 +34,7 @@ def main():
     print(txt)
     # pprint.pprint()
     # print render(template)
+    return txt
 
 
 if __name__ == "__main__":
