@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from __future__ import print_function
 from dktemplate.parse import nest
 from dktemplate.tokenize import tokenize
 
@@ -25,22 +26,22 @@ class Render(object):
         try:
             getattr(self, 'render_' + tag)(item)
         except:
-            print '='*80
-            print self.out.getvalue()
+            print('='*80)
+            print(self.out.getvalue())
             raise
 
     def render_block(self, block):
-        print >>self.out, "{%% %s %%}" % block[0]
+        print("{%% %s %%}" % block[0], file=self.out)
         if len(block) > 1:
             for item in block[1]:
                 self.render(item)
-        print >>self.out, "{%% end%s %%}" % block[0]
+        print("{%% end%s %%}" % block[0], file=self.out)
 
     def render_tag(self, tag):
-        print >>self.out, "{%% %s %%}" % (' '.join(tag[1:]))
+        print("{%% %s %%}" % (' '.join(tag[1:])), file=self.out)
 
     def render_val(self, item):
-        print >>self.out, "{{ %s }}" % item[1]
+        print("{{ %s }}" % item[1], file=self.out)
 
 
 def render(txt):

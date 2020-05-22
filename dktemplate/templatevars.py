@@ -3,6 +3,7 @@
    Output the template variables in a format that can be included in the
    template to verify the values of all context variables.
 """
+from __future__ import print_function
 
 import re
 import sys
@@ -30,7 +31,7 @@ def main():
     txt = txt.replace('{% -program None %} ==> []', '')
     # txt = re.sub(r'{%\s*load.*?%}', '', txt)
     txt = 'TEMPLATEVARS:<pre>' + txt
-    print txt
+    print(txt)
     # pprint.pprint()
     # print render(template)
 

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from __future__ import print_function
 import re
 
 import sys
@@ -63,9 +64,9 @@ def nest(words, fname):
     def prstack():  # pragma:nocover
         """Print stack contents.
         """
-        print "STACK:...."
+        print("STACK:....")
         for _item in stack:
-            print _item
+            print(_item)
 
     while words:
         word = words.pop(0)
