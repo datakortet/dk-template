@@ -6,6 +6,9 @@ from dk.collections import pset
 from django import template
 
 
+NO_VALUE = '4242424242'
+
+
 def split_lines(text):
     """Split text into lines.
        Removes comments, blank lines, and strips/trims whitespace.
@@ -281,9 +284,12 @@ class Arguments(object):
     """
     lookup = ArgValues()  #: descriptor lookup
 
-    def __init__(self, token):
+    def __init__(self, token=None, raw_contents=None):
         self.ctx = None
-        self.raw_contents = token.contents
+        if token is not None:
+            self.raw_contents = token.contents
+        else:
+            self.raw_contents = raw_contents
         self.tagname = self.raw_contents.split(' ', 1)[0]
         self.args = []
         self.argnames = {}
@@ -296,8 +302,33 @@ class Arguments(object):
             if i > 100:
                 raise ValueError('too many arguments')
 
+        nonames = [argname for argname in self.argnames
+                   if argname.startswith('no')
+                   and argname[2:] not in self.argnames]
+        for name in nonames:
+            self.args.append(
+                pset(
+                    name=name[2:],
+                    align='left',
+                    kind='bool',
+                    value=False
+                )
+            )
+            self.argnames[name[2:]] = False
+        self.nonames = nonames
+
     def __getitem__(self, key):
         return self.args[key]
+
+    def find(self, attr):
+        """Return the attribute named attr.
+        """
+        if attr.startswith('_'):
+            return None
+        for arg in self.args:
+            if arg.name == attr:
+                return arg
+        return None
 
     def __getattr__(self, attr):
         if not attr.startswith('_'):
@@ -356,22 +387,24 @@ class Arguments(object):
             return 'string', g['sqvalue']
 
         else:
-            return 'unknown', '4242424242'
+            return 'unknown', NO_VALUE
 
     def _parse_next_argument(self, txt):
         m = dkarg_re.match(txt)
         g = m.groupdict()
         tp, val = self._value(g)
+        name = g['argname']
+        align = self._parse_align(g)
 
         self.args.append(
             pset(
-                name=g['argname'],
-                align=self._parse_align(g),
+                name=name,
+                align=align,
                 kind=tp,
                 value=val,
             )
         )
-        self.argnames[g['argname']] = val
+        self.argnames[name] = val
         return txt[m.span()[1]:].strip()
 
 
@@ -384,10 +417,3 @@ class DKArguments(Arguments):
             return 'string', g['val']
         else:
             return super(DKArguments, self)._value(grpdict)
-
-
-if __name__ == "__main__":
-    m = dkarg_re.match('a.b.c=c')
-    import pprint
-
-    pprint.pprint(m.groupdict())
