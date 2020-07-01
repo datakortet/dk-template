@@ -303,7 +303,8 @@ class Arguments(object):
                 raise ValueError('too many arguments')
 
         nonames = [argname for argname in self.argnames
-                   if argname.startswith('no')
+                   if argname
+                   and argname.startswith('no')
                    and argname[2:] not in self.argnames]
         for name in nonames:
             self.args.append(
@@ -319,6 +320,14 @@ class Arguments(object):
 
     def __getitem__(self, key):
         return self.args[key]
+
+    def get_value(self, attr):
+        a = self.find(attr)
+        if a is None:
+            return None
+        if a.value is NO_VALUE:
+            return None
+        return a.value
 
     def find(self, attr):
         """Return the attribute named attr.
