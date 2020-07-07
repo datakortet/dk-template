@@ -74,18 +74,18 @@ def test_parse2():
 
 def test_parse3_align():
     args = Arguments(raw_contents=u"greet |hello=world")
-    assert args.find('hello').align == 'left'
+    assert args._find('hello').align == 'left'
     args = Arguments(raw_contents=u"greet hello|=world")
-    assert args.find('hello').align == 'right'
+    assert args._find('hello').align == 'right'
     args = Arguments(raw_contents=u"greet |hello|=world")
-    assert args.find('hello').align == 'center'
+    assert args._find('hello').align == 'center'
 
 
 def test_getattr():
     args = Arguments(raw_contents=u"greet |hello=world")
     assert args.hello.align == 'left'
-    assert args.hello == args[0] == args.find('hello')
-    assert args.find('_hello') is None
+    assert args.hello == args[0] == args._find('hello')
+    assert args._find('_hello') is None
     assert args._hello is None
     assert len(args) == 1
     args.pop('hello')

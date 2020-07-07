@@ -321,15 +321,22 @@ class Arguments(object):
     def __getitem__(self, key):
         return self.args[key]
 
+    def update_context(self, skip=None):
+        if skip is None:
+            skip = set()
+        for arg in self.args:
+            if arg.name not in skip:
+                self.ctx[arg.name] = self.lookup.get(arg.name)
+
     def get_value(self, attr):
-        a = self.find(attr)
+        a = self._find(attr)
         if a is None:
             return None
         if a.value is NO_VALUE:
             return None
         return a.value
 
-    def find(self, attr):
+    def _find(self, attr):
         """Return the attribute named attr.
         """
         if attr.startswith('_'):
