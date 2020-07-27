@@ -1,6 +1,6 @@
 
 
-dk-template - template - debugging django templates.
+dk-template - debugging django templates.
 ====================================================
 
 Parse a django template and find all template variables that are used.
@@ -20,7 +20,3 @@ template to verify the values of all context variables.
 
 .. image:: https://codecov.io/gl/norsktest/dk-template/branch/master/graph/badge.svg?token=6E4JXSMACJ
   :target: https://codecov.io/gl/norsktest/dk-template
-
-.. include:: badge-wheel.rst
-
-test
