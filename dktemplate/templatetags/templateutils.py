@@ -290,36 +290,47 @@ class Arguments(object):
             self.raw_contents = token.contents
         else:
             self.raw_contents = raw_contents
+        #: the name of the tag itself
         self.tagname = self.raw_contents.split(' ', 1)[0]
+        #: a list of pset(name, align, kind, value)
         self.args = []
+        #: a dict from name to value
         self.argnames = {}
 
-        txt = self.raw_contents[len(self.tagname) + 1:].strip()
-        i = 0
-        while txt:
-            txt = self._parse_next_argument(txt)
-            i += 1
-            if i > 100:
-                raise ValueError('too many arguments')
+        self._parse(self.raw_contents[len(self.tagname) + 1:].strip())
 
-        nonames = [argname for argname in self.argnames
-                   if argname
-                   and argname.startswith('no')
-                   and argname[2:] not in self.argnames]
-        for name in nonames:
-            self.args.append(
-                pset(
-                    name=name[2:],
-                    align='left',
-                    kind='bool',
-                    value=False
-                )
-            )
-            self.argnames[name[2:]] = False
-        self.nonames = nonames
+        #: a list of all args that are specified with a no-prefix (which sets
+        #: the corresponding unprefixed arg to False.
+        self.nonames = [argname for argname in self.argnames
+                        if argname
+                        and argname.startswith('no')
+                        and argname[2:] not in self.argnames]
+        for name in self.nonames:
+            self.add_argument(name[2:], align='left', kind='bool', value=False)
 
     def __getitem__(self, key):
         return self.args[key]
+
+    def add_argument(self, name, align, kind, value):
+        """Add an argument to self.
+        """
+        arg = pset(name=name, align=align, kind=kind, value=value)
+        self.args.append(arg)
+        self.argnames[name] = value
+        return arg
+
+    def remove_argument(self, name):
+        """Remove an argument from self.
+        """
+        if name not in self.argnames:
+            return
+        del self.argnames[name]
+        for i, arg in enumerate(self.args):
+            if arg.name == name:
+                break
+        else:
+            return  # pragma: nocover
+        del self.args[i]
 
     def update_context(self, skip=None):
         if skip is None:
@@ -327,14 +338,6 @@ class Arguments(object):
         for arg in self.args:
             if arg.name not in skip:
                 self.ctx[arg.name] = self.lookup.get(arg.name)
-
-    def get_value(self, attr):
-        a = self._find(attr)
-        if a is None:
-            return None
-        if a.value is NO_VALUE:
-            return None
-        return a.value
 
     def _find(self, attr):
         """Return the attribute named attr.
@@ -346,6 +349,14 @@ class Arguments(object):
                 return arg
         return None
 
+    def get_value(self, attr):
+        a = self._find(attr)
+        if a is None:
+            return None
+        if a.value is NO_VALUE:
+            return None
+        return a.value
+
     def __getattr__(self, attr):
         if not attr.startswith('_'):
             for arg in self.args:
@@ -353,14 +364,12 @@ class Arguments(object):
                     return arg
 
     def pop(self, attrname):
-        "Return and remove argument with ``key``."
-        for i, arg in enumerate(self.args):
-            if arg.name == attrname:
-                break
-        else:
+        """Return and remove argument with ``key``.
+        """
+        res = self._find(attrname)
+        if res is None:
             return None
-        res = self.args[i]
-        del self.args[i]
+        self.remove_argument(attrname)
         return res
 
     def __len__(self):
@@ -369,6 +378,29 @@ class Arguments(object):
     def __repr__(self):
         import pprint
         return pprint.pformat(self.__dict__)
+
+    # below here is parser routines.
+    def _parse(self, txt):
+        """Parse the contents of the tag.
+        """
+        i = 0
+        while txt:
+            txt = self._parse_next_argument(txt)
+            i += 1
+            if i > 100:
+                raise ValueError('too many arguments')
+
+    def _parse_next_argument(self, txt):
+        """Parse the next argument from txt, adding it to self.args and
+           self.argnames, and returning the remaining txt.
+        """
+        m = dkarg_re.match(txt)
+        g = m.groupdict()
+        tp, val = self._value(g)
+        name = g['argname']
+        align = self._parse_align(g)
+        self.add_argument(name, align, tp, val)
+        return txt[m.span()[1]:].strip()
 
     def _parse_align(self, grpdict):
         align = 'left'
@@ -404,24 +436,6 @@ class Arguments(object):
 
         else:
             return 'unknown', NO_VALUE
-
-    def _parse_next_argument(self, txt):
-        m = dkarg_re.match(txt)
-        g = m.groupdict()
-        tp, val = self._value(g)
-        name = g['argname']
-        align = self._parse_align(g)
-
-        self.args.append(
-            pset(
-                name=name,
-                align=align,
-                kind=tp,
-                value=val,
-            )
-        )
-        self.argnames[name] = val
-        return txt[m.span()[1]:].strip()
 
 
 class DKArguments(Arguments):

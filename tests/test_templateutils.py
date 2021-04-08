@@ -90,3 +90,17 @@ def test_getattr():
     assert len(args) == 1
     args.pop('hello')
     assert len(args) == 0
+
+
+def test_remove_argument():
+    args = Arguments(raw_contents=u"greet hello=world")
+    args.remove_argument('greet')
+    assert args._find('hello') is not None
+    args.add_argument('goodbye', 'left', 'bool', True)
+    assert args.get_value('goodbye') is True
+    assert args._find('goodbye') is not None
+    args.remove_argument('goodbye')
+    assert args._find('goodbye') is None
+    assert args.pop('goodbye') is None
+
+
