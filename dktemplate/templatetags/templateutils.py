@@ -349,12 +349,12 @@ class Arguments(object):
                 return arg
         return None
 
-    def get_value(self, attr):
+    def get_value(self, attr, default=None):
         a = self._find(attr)
         if a is None:
-            return None
+            return default
         if a.value is NO_VALUE:
-            return None
+            return default
         return a.value
 
     def __getattr__(self, attr):

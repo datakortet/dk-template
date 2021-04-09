@@ -101,6 +101,7 @@ def test_remove_argument():
     assert args._find('goodbye') is not None
     args.remove_argument('goodbye')
     assert args._find('goodbye') is None
+    assert args.get_value('goodbye', False) is False
     assert args.pop('goodbye') is None
 
 
