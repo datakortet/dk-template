@@ -311,6 +311,9 @@ class Arguments(object):
     def __getitem__(self, key):
         return self.args[key]
 
+    def __contains__(self, argname):
+        return argname in self.argnames
+
     def add_argument(self, name, align, kind, value):
         """Add an argument to self.
         """
