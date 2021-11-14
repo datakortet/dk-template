@@ -1,4 +1,4 @@
-django==1.8.19
+django==2.2.24
 
 
 # dk (below) must not be a -e install since we're also running this pipeline on travis
