@@ -17,14 +17,14 @@ Topic :: Software Development :: Libraries
 
 import setuptools
 
-version = '1.0.9'
+version = '1.0.10'
 
 
 setuptools.setup(
     name='dk-template',
     version=version,
     install_requires=[
-        'django==1.8.19',
+        'django',
         'dk'
     ],
     author='Bjorn Pettersen',

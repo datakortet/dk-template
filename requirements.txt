@@ -1,4 +1,5 @@
-django==1.8.19
+django==1.8.19      ; python_version < '3.6'
+django==1.9.13      ; python_version >= '3.6'
 
 
 # dk (below) must not be a -e install since we're also running this pipeline on travis
