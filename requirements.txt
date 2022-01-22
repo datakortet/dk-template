@@ -2,7 +2,7 @@ django==1.8.19      ; python_version < '3.6'
 django==1.9.13      ; python_version >= '3.6'
 coverage==5.5
 pytest-cov>=2.12.1
-future==1.18.2      # from dk..?
+future==0.18.2      # from dk..?
 
 # dk (below) must not be a -e install since we're also running this pipeline on travis
 dk
