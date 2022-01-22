@@ -22,7 +22,7 @@ jobs:
           mkdir -p $LINTDIR
       - uses: actions/setup-python@v2
         with:
-          python-version: '3.9'
+          python-version: '3.6'
 
       - run: pip install flake8
       - run: flake8 dktemplate/** --max-line-length=199
@@ -34,7 +34,7 @@ jobs:
       matrix:
 
         # 3.5-9  (current matrix)
-        python-version: [ '3.5', '3.6', '3.7', '3.8', '3.9']
+        python-version: [ '3.5', '3.6']
       
         # for debugging
         # python-version: [ '3.9' ]
@@ -82,7 +82,7 @@ jobs:
         run: mkdir -p $PIP_CACHE_DIR
       - uses: actions/setup-python@v2
         with:
-          python-version: '3.9'
+          python-version: '3.6'
 
       - name: Cleanup
         run: |
