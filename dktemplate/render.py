@@ -23,10 +23,10 @@ class Render(object):
         if tag.startswith('block:'):
             tag = 'block'
 
-        #print '[I]', item, 'CALLING:', getattr(self, 'render_' + tag).__name__ , item
+        # print '[I]', item, 'CALLING:', getattr(self, 'render_' + tag).__name__ , item
         try:
             getattr(self, 'render_' + tag)(item)
-        except:
+        except:  # noqa
             print('='*80)
             print(self.out.getvalue())
             raise

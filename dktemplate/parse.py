@@ -2,10 +2,11 @@
 from __future__ import print_function
 import re
 
-import sys
 
-from dktemplate.ast import IfTag, ForTag, WithTag, NoOpTag, Tag, Block, Value, IncludeTag, RegroupTag, GetCommentForm, \
-    AsTag
+from dktemplate.ast import (
+    IfTag, ForTag, WithTag, NoOpTag, Tag, Block, Value, IncludeTag,
+    RegroupTag, GetCommentForm, AsTag
+)
 from dktemplate.tokenize import name, content, tokenize, is_tag, is_endtag
 
 
@@ -74,7 +75,7 @@ def nest(words, fname):
         # prstack()
 
         if is_endtag(word):
-            tagname = name(word)[3:]
+            # tagname = name(word)[3:]
             # print "REDUCE", tagname
             block = []
             while 1:

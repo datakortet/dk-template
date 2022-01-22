@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-import os
 import re
 
 from dktemplate.find_template import find_template
@@ -29,7 +27,7 @@ class Tag(Node):
         self.fname = fname
 
     def is_identifier(self, txt):
-        return re.match('^[\w\.]+$', txt)
+        return re.match(r'^[\w\.]+$', txt)
 
     def find_identifiers(self, txt):
         return set(t for t in txt.split() if self.is_identifier(t))

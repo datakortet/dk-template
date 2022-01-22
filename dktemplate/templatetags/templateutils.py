@@ -131,7 +131,7 @@ def deftag(tagname, cls, has_endtag=True):
             else:
                 nodes = None
             return cls(args, nodes)
-        except:
+        except:  # noqa
             traceback.print_exc()
             raise template.TemplateSyntaxError(traceback.format_exc())
 

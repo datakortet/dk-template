@@ -28,7 +28,7 @@ def freevars(context):
         overflow = list(contextvars - _fvars - common_page_vars)
         overflow.sort()
         fvars = [dict(name=fv, value=context.get(fv, u"[MISSING]")) for fv in _fvars]
-        fvars.sort(key=lambda item:(str(item['value']) != '[MISSING]', item['name']))
+        fvars.sort(key=lambda item: (str(item['value']) != '[MISSING]', item['name']))
         return {
             'fvars': fvars,
             'overflow': overflow,
