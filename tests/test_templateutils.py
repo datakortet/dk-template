@@ -1,5 +1,9 @@
-from dktemplate.templatetags.templateutils import split_lines, remove_comments, \
-    Arguments, NO_VALUE
+from dktemplate.templatetags.templateutils import (
+    split_lines, 
+    remove_comments,
+    Arguments, 
+    NO_VALUE,
+)
 
 
 def test_split_lines():
