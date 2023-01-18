@@ -1,11 +1,9 @@
-# -*- coding: utf-8 -*-
-from __future__ import print_function
 from io import StringIO
 from dktemplate.parse import nest
 from dktemplate.tokenize import tokenize
 
 
-class Render(object):
+class Render:
     def __init__(self, content):
         self.content = content
         self.out = StringIO()

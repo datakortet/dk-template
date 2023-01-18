@@ -4,7 +4,7 @@ from dktemplate.find_template import find_template
 from dktemplate.tokenize import name
 
 
-class Node(object):
+class Node:
     def global_defines(self):
         return set()
 
@@ -30,7 +30,7 @@ class Tag(Node):
         return re.match(r'^[\w\.]+$', txt)
 
     def find_identifiers(self, txt):
-        return set(t for t in txt.split() if self.is_identifier(t))
+        return {t for t in txt.split() if self.is_identifier(t)}
 
     def __repr__(self):
         return "{%% %s %s %%} ==> %r" % (self.name, self.content, list(self.fvars()))
@@ -154,7 +154,7 @@ class Block(Node):
     def __repr__(self):
         # print self.fvars()
         block = '\n'.join(repr(s) for s in self.block)
-        return "\n%s%s\n%s\n%s\n%s" % (
+        return "\n{}{}\n{}\n{}\n{}".format(
             self.indent("", self.indent_level),
             self.display_fvars(),
             self.indent(repr(self.tag), self.indent_level),

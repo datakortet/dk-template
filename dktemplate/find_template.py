@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import os
 
 from django.conf import settings
@@ -14,4 +13,4 @@ def find_template(fname):
         if os.path.exists(tmpl_path):
             return tmpl_path
 
-    raise IOError(fname + " not found.")
+    raise OSError(fname + " not found.")

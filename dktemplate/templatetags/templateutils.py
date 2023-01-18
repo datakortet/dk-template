@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import traceback
 
 import re
@@ -25,7 +24,7 @@ def split_lines(text):
 
 def remove_comments(text):
     "Remove comments, blank lines, and strip/trim whitespace."
-    return u'\n'.join(split_lines(text))
+    return '\n'.join(split_lines(text))
 
 
 class Env(pset):
@@ -55,7 +54,7 @@ class Env(pset):
     def __init__(self, ctx, scope=True):
         self._ctx = ctx
         self._scope = scope
-        super(Env, self).__init__()
+        super().__init__()
 
     def contains(self, key):
         "Test if variable ``key`` is defined in the context."
@@ -101,7 +100,7 @@ class DkNode(template.Node):
     """
 
     def __init__(self, dkargs, nodes):
-        super(DkNode, self).__init__()
+        super().__init__()
         self.args = dkargs
         self.nodes = nodes
 
@@ -166,7 +165,7 @@ dkarg_re = re.compile(r'''
                       re.MULTILINE | re.VERBOSE)
 
 
-class ArgValues(object):
+class ArgValues:
     """Descriptor to access a templates argument values given the current
        context.
     """
@@ -175,7 +174,7 @@ class ArgValues(object):
         if obj is None:
             raise AttributeError("ArgValues is an instance attribute.")
 
-        class proxy(object):
+        class proxy:
             """Proxy object for the arguments to the template (ie. ``obj``).
 
                Usage (template)::
@@ -237,7 +236,7 @@ class ArgValues(object):
         raise AttributeError
 
 
-class Arguments(object):
+class Arguments:
     """Usage::
 
            @register.tag
@@ -448,4 +447,4 @@ class DKArguments(Arguments):
         if g['val']:
             return 'string', g['val']
         else:
-            return super(DKArguments, self)._value(grpdict)
+            return super()._value(grpdict)

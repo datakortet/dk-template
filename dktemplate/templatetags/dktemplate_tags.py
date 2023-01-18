@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from django import template
 
 from dktemplate.find_template import find_template
@@ -27,13 +25,13 @@ def freevars(context):
         """.split())
         overflow = list(contextvars - _fvars - common_page_vars)
         overflow.sort()
-        fvars = [dict(name=fv, value=context.get(fv, u"[MISSING]")) for fv in _fvars]
+        fvars = [dict(name=fv, value=context.get(fv, "[MISSING]")) for fv in _fvars]
         fvars.sort(key=lambda item: (str(item['value']) != '[MISSING]', item['name']))
         return {
             'fvars': fvars,
             'overflow': overflow,
         }
-    except IOError:
+    except OSError:
         return {
             'fvars': [{'name': 'NOTHING', 'value': 'FOUND'}]
         }

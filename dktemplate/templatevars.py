@@ -1,9 +1,7 @@
-# -*- coding: utf-8 -*-
 """Parse a django template and find all template variables that are used.
    Output the template variables in a format that can be included in the
    template to verify the values of all context variables.
 """
-from __future__ import print_function
 
 import re
 import sys
