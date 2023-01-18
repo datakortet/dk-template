@@ -430,8 +430,7 @@ class Arguments(object):
         elif g['intval']:
             return 'int', eval(g['intval'])
         elif g['lambda']:
-            return 'lambda', eval("lambda %s:%s" % (g['lambda_args'],
-                                                    g['lambda_body']))
+            return 'lambda', eval(f"lambda {g['lambda_args']}:{g['lambda_body']}")
         elif g['dqvalue']:
             return 'string', g['dqvalue']
         elif g['sqvalue']:
