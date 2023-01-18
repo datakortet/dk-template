@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-from __future__ import print_function
-
 from dktemplate.templatetags.templateutils import split_lines, remove_comments, \
     Arguments, NO_VALUE
 
@@ -30,7 +27,7 @@ def test_split_remove_comments():
 
 
 def test_no_param():
-    args = Arguments(raw_contents=u"name nohelp")
+    args = Arguments(raw_contents="name nohelp")
     print("ARGS:", args)
     assert args.nohelp
     assert args.nohelp.value is NO_VALUE
@@ -39,7 +36,7 @@ def test_no_param():
 
 
 def test_parse_value():
-    args = Arguments(raw_contents=u'''n a=1 b=1.2 c="HELLO" d='WORLD' e=True f=a.b''')
+    args = Arguments(raw_contents='''n a=1 b=1.2 c="HELLO" d='WORLD' e=True f=a.b''')
     print("ARGS:", args)
     assert len(args) == 6
     assert args.a.value == 1
@@ -57,7 +54,7 @@ def test_parse_value():
 
 
 def test_parse1():
-    args = Arguments(raw_contents=u"hello world")
+    args = Arguments(raw_contents="hello world")
     print("ARGS:", args)
     assert args.tagname == 'hello'
     print("ARGNAMES:", args.argnames)
@@ -65,7 +62,7 @@ def test_parse1():
 
 
 def test_parse2():
-    args = Arguments(raw_contents=u"greet hello=world")
+    args = Arguments(raw_contents="greet hello=world")
     print("ARGS:", args)
     assert args.tagname == 'greet'
     print("ARGNAMES:", args.argnames)
@@ -73,16 +70,16 @@ def test_parse2():
 
 
 def test_parse3_align():
-    args = Arguments(raw_contents=u"greet |hello=world")
+    args = Arguments(raw_contents="greet |hello=world")
     assert args._find('hello').align == 'left'
-    args = Arguments(raw_contents=u"greet hello|=world")
+    args = Arguments(raw_contents="greet hello|=world")
     assert args._find('hello').align == 'right'
-    args = Arguments(raw_contents=u"greet |hello|=world")
+    args = Arguments(raw_contents="greet |hello|=world")
     assert args._find('hello').align == 'center'
 
 
 def test_getattr():
-    args = Arguments(raw_contents=u"greet |hello=world")
+    args = Arguments(raw_contents="greet |hello=world")
     assert args.hello.align == 'left'
     assert args.hello == args[0] == args._find('hello')
     assert args._find('_hello') is None
@@ -93,7 +90,7 @@ def test_getattr():
 
 
 def test_remove_argument():
-    args = Arguments(raw_contents=u"greet hello=world")
+    args = Arguments(raw_contents="greet hello=world")
     args.remove_argument('greet')
     assert args._find('hello') is not None
     args.add_argument('goodbye', 'left', 'bool', True)

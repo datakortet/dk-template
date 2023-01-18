@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import os
 
 from dktemplate.parse import parse
@@ -23,7 +22,7 @@ def test_if():
 
 
 def test_for():
-    assert parse(u"""
+    assert parse("""
     {% for a in alist %}
         {{ a }} {{ b }}
     {% endfor %}

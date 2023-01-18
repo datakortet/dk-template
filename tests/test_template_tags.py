@@ -6,7 +6,7 @@ DIRNAME = os.path.dirname(__file__)
 
 class Context(dict):
     def __init__(self, *args, **kw):
-        super(Context, self).__init__(*args, **kw)
+        super().__init__(*args, **kw)
         self.__dict__ = self
 
 
