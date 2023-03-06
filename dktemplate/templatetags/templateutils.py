@@ -236,6 +236,26 @@ class ArgValues:
         raise AttributeError
 
 
+def get_template_text(template_name):
+    """Get the text of a template.
+
+       Usage::
+
+           template_text = get_template_text('myapp/mytemplate.html')
+
+       This is useful for debugging purposes.
+    """
+    engine = template.engines['django']
+    engine.file_charset = 'utf-8'
+    loader = template.loaders.app_directories.Loader(engine)
+    for origin in loader.get_template_sources(template_name):
+        try:
+            return loader.get_contents(origin)
+        except template.exceptions.TemplateDoesNotExist:
+            pass
+    return ""
+
+
 class Arguments:
     """Usage::
 
@@ -283,8 +303,10 @@ class Arguments:
     """
     lookup = ArgValues()  #: descriptor lookup
 
-    def __init__(self, token=None, raw_contents=None):
+    def __init__(self, token=None, raw_contents=None, parser=None):
         self.ctx = None
+        self.parser = parser
+        self.token = token
         if token is not None:
             self.raw_contents = token.contents
         else:
@@ -306,6 +328,34 @@ class Arguments:
                         and argname[2:] not in self.argnames]
         for name in self.nonames:
             self.add_argument(name[2:], align='left', kind='bool', value=False)
+
+    def get_template_position(self, verbose=True) -> str:
+        """Return a string with the template name and line number of the
+           current tag.
+
+           Usage::
+
+                warnings.warn(
+                    f"The 'labelcols' argument is deprecated. Use 'labels' "
+                    f"instead in:\n"
+                    f"{self.args.get_template_position(verbose=True)}",
+                    UserWarning, stacklevel=18
+                )
+
+        """
+        templ = ''
+        lineno = 0
+        if self.parser and self.parser.origin:
+            templ = self.parser.origin.template_name
+        if self.token:
+            lineno = self.token.lineno - 1
+        res = f'{templ}:{lineno}:: {{% {self.tagname} {self.raw_contents} %}}\n\n'
+        if verbose and templ:
+            lines = get_template_text(templ).splitlines()
+            lines[lineno] = f'HERE--> {lines[lineno]}'  # highlight the line
+            for line in lines[lineno - 10:lineno + 10]:
+                res += line + '\n'
+        return res
 
     def __getitem__(self, key):
         return self.args[key]
