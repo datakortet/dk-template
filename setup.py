@@ -6,10 +6,12 @@
 import sys
 
 classifiers = """\
-Development Status :: 3 - Alpha
+Development Status :: 5 - Production/Stable
 Intended Audience :: Developers
 Programming Language :: Python
 Programming Language :: Python :: 3
+Django :: 1.11
+Django :: 2.2
 Topic :: Software Development :: Libraries
 """
 
