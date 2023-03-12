@@ -352,9 +352,10 @@ class Arguments:
         res = f'{templ}:{lineno}:: {{% {self.tagname} {self.raw_contents} %}}\n\n'
         if verbose and templ:
             lines = get_template_text(templ).splitlines()
-            lines[lineno] = f'HERE--> {lines[lineno]}'  # highlight the line
-            for line in lines[lineno - 10:lineno + 10]:
-                res += line + '\n'
+            if lines and len(lines) >= lineno:
+                lines[lineno] = f'HERE--> {lines[lineno]}'  # highlight the line
+                for line in lines[lineno - 10:lineno + 10]:
+                    res += line + '\n'
         return res
 
     def __getitem__(self, key):
