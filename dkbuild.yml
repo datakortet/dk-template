@@ -9,3 +9,6 @@ package:
 
 build:
   venv: dktemplate
+
+requirements:
+  update: manual

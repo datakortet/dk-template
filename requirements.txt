@@ -5,6 +5,5 @@ coverage==7.0.5                ; python_version >= '3.9'
 pytest-cov==2.12.1             ; python_version < '3.9'
 pytest-cov==4.0.0              ; python_version >= '3.9'
 
-# dk (below) must not be a -e install since we're also running this pipeline on travis
-dk<1.2.0                        ; python_version < '3.9'
-dk>=1.2.0                       ; python_version >= '3.9'
+# don't use -e, since this package is published to PyPI from github actions
+dk
