@@ -217,7 +217,7 @@ class ArgValues:
                                 # a __call__ method that cannot take zero
                                 # arguments (thus raising a TypeError).
                                 # XXX: needs better fix?
-                            #                            possible_val = [x for x in [d.get(arg.value) for d in obj.ctx] if x]
+                            # possible_val = [x for x in [d.get(arg.value) for d in obj.ctx] if x]
                             #                            if possible_val:
                             #                                val = possible_val[0]
                             #                            else:

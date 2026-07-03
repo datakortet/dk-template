@@ -9,13 +9,15 @@ from dktemplate.tokenize import name, content, tokenize, is_tag, is_endtag
 
 
 def parse_file(fname):
-    return parse(open(fname).read(), fname)
+    with open(fname, encoding='utf-8') as f:
+        return parse(f.read(), fname)
 
 
 def parse(txt, fname=None):
     """Parse template text.
     """
-    txt = re.sub(r'{#\s*dk-template:\s*noparse\s*#}.*?{#\s*dk-template:\s*end-noparse\s*#}', "", txt)
+    pattern = r'{#\s*dk-template:\s*noparse\s*#}.*?{#\s*dk-template:\s*end-noparse\s*#}'
+    txt = re.sub(pattern, "", txt)
     return nest(tokenize(txt), fname)
 
 
@@ -59,13 +61,6 @@ def nest(words, fname):
     """
     # stack = [Tag('-program')]
     stack = []
-
-    def prstack():  # pragma: nocover
-        """Print stack contents.
-        """
-        print("STACK:....")
-        for _item in stack:
-            print(_item)
 
     while words:
         word = words.pop(0)

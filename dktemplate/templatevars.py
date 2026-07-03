@@ -22,17 +22,18 @@ def templatevars(t):
 def main(fname=None):
     """cli entry point.
     """
-    template = open(fname or sys.argv[1]).read()
-    template = re.sub(r'TEMPLATEVARS:.*?:TEMPLATEVARS', "", template)
-    txt = repr(nest(tokenize(template), fname))
-    txt = txt.replace('{% end-program %}', '</pre>:TEMPLATEVARS' + '<br>' * 5)
-    txt = txt.replace('{% -program None %} ==> []', '')
-    # txt = re.sub(r'{%\s*load.*?%}', '', txt)
-    txt = 'TEMPLATEVARS:<pre>' + txt
-    print(txt)
-    # pprint.pprint()
-    # print render(template)
-    return txt
+    with open(fname or sys.argv[1], encoding='utf-8') as f:
+        template = f.read()
+        template = re.sub(r'TEMPLATEVARS:.*?:TEMPLATEVARS', "", template)
+        txt = repr(nest(tokenize(template), fname))
+        txt = txt.replace('{% end-program %}', '</pre>:TEMPLATEVARS' + '<br>' * 5)
+        txt = txt.replace('{% -program None %} ==> []', '')
+        # txt = re.sub(r'{%\s*load.*?%}', '', txt)
+        txt = 'TEMPLATEVARS:<pre>' + txt
+        print(txt)
+        # pprint.pprint()
+        # print render(template)
+        return txt
 
 
 if __name__ == "__main__":
