@@ -1,3 +1,4 @@
+import ast
 import traceback
 
 import re
@@ -472,13 +473,13 @@ class Arguments:
         elif g['dqval']:
             return 'string', g['dqval']
         elif g['boolval']:
-            return 'bool', eval(g['boolval'])
+            return 'bool', ast.literal_eval(g['boolval'])
         elif g['floatval']:
-            return 'float', eval(g['floatval'])
+            return 'float', ast.literal_eval(g['floatval'])
         elif g['dotval']:
             return 'dotval', [str(v) for v in g['dotval'].split('.')]
         elif g['intval']:
-            return 'int', eval(g['intval'])
+            return 'int', ast.literal_eval(g['intval'])
         elif g['lambda']:
             return 'lambda', eval(f"lambda {g['lambda_args']}:{g['lambda_body']}")
         elif g['dqvalue']:
