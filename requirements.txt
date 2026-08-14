@@ -1,9 +1,7 @@
-Django==2.2.28                  ; python_version < '3.11'
-Django==3.2.25                  ; python_version >= '3.11'
-coverage==7.0.5                 ; python_version < '3.11'
-coverage==7.13.5                ; python_version >= '3.11'
-pytest-cov==4.0.0               ; python_version < '3.11'
-pytest-cov==4.1.0               ; python_version >= '3.11'
-
-# don't use -e, since this package is published to PyPI from github actions
+coverage==7.13.5               ; python_version < '3.12'
+coverage==7.15.4               ; python_version >= '3.12'
+Django==3.2.24                 ; python_version < '3.12'
+Django==4.2.30                 ; python_version >= '3.12'
 dk
+pytest-cov==4.1.0
+
