@@ -498,5 +498,4 @@ class DKArguments(Arguments):
         g = grpdict
         if g['val']:
             return 'string', g['val']
-        else:
-            return super()._value(grpdict)
+        return super()._value(grpdict)

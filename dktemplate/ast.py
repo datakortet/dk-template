@@ -105,14 +105,12 @@ class WithTag(Tag):
     def fvars(self):
         if ' as ' in self.content:
             return self.find_identifiers(self.content.rsplit(' as ', 1)[0])
-        else:
-            return self.find_identifiers(self.content.split('=', 1)[1])
+        return self.find_identifiers(self.content.split('=', 1)[1])
 
     def dvars(self):
         if ' as ' in self.content:
             return {'as'} | self.find_identifiers(self.content.rsplit(' as ', 1)[1])
-        else:
-            return self.find_identifiers(self.content.split('=', 1)[0])
+        return self.find_identifiers(self.content.split('=', 1)[0])
 
 
 class IncludeTag(Tag):
