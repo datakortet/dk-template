@@ -60,6 +60,8 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
+      # requirements.txt installs -e ../dk (the /srv layout): put dk there
+      - run: git clone --depth 1 https://github.com/datakortet/dk.git ../dk
       - run: pip install -r requirements.txt
       - run: pip list
       - run: pytest -vv --cov=dktemplate tests
